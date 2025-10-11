@@ -1,0 +1,305 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+
+:root {
+    --uno-red: #ff5555;
+    --uno-yellow: #ffaa00;
+    --uno-green: #55aa55;
+    --uno-blue: #5555ff;
+    --uno-black: #252525;
+    --bg-dark-transparent: rgba(0, 0, 0, 0.6);
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    color: white;
+}
+
+#game-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('gambar.jpg'); 
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#control-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 100%;
+    background-color: var(--bg-dark-transparent);
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#control-panel .control-group {
+    display: flex;
+    flex-direction: column;
+}
+
+#control-panel label {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+#control-panel input {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--uno-black);
+    font-family: 'Poppins', sans-serif;
+}
+
+#control-panel button {
+    padding: 12px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    transition: all 0.2s;
+}
+
+#control-panel button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#start-round-btn { background-color: var(--uno-green); color: white; }
+#start-round-btn:hover:not(:disabled) { background-color: #6cff6c; }
+
+#pass-turn-btn { background-color: #f39c12; color: white; }
+#uno-btn { background-color: var(--uno-red); color: white; }
+#call-uno-btn { background-color: #9b59b6; color: white; }
+
+#game-messages {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 5px;
+    min-height: 80px;
+    font-size: 0.85em;
+    font-weight: normal;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.log-entry {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mini-card {
+    width: 30px;
+    height: 44px;
+    border-radius: 4px;
+    border: 1px solid white;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px; 
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+}
+.mini-card.red { background-color: var(--uno-red); }
+.mini-card.yellow { background-color: var(--uno-yellow); color: var(--uno-black); }
+.mini-card.green { background-color: var(--uno-green); }
+.mini-card.blue { background-color: var(--uno-blue); }
+.mini-card.black { background: radial-gradient(circle, #555 0%, #252525 100%); }
+.mini-card.is-symbol { font-size: 16px; }
+
+
+#bot-area, #player-area {
+    width: calc(100% - 300px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#bot-hand-display, #player-hand-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 140px;
+}
+
+#bot-info, #player-info {
+    background-color: var(--bg-dark-transparent);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+
+#table-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+
+.card, .card-back {
+    width: 75px;      
+    height: 110px;    
+    border-radius: 8px;
+    border: 2px solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    user-select: none;
+}
+
+.card .main {
+    font-size: 36px; 
+    font-weight: 700;
+}
+.card .corner {
+    position: absolute;
+    font-size: 14px; 
+    font-weight: 700;
+}
+
+.card span {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.card .top.corner { top: 5px; left: 8px; }
+.card .bottom.corner { bottom: 5px; right: 8px; transform: rotate(180deg); }
+
+.card.red { background-color: var(--uno-red); }
+.card.yellow { background-color: var(--uno-yellow); color: var(--uno-black); }
+.card.yellow span { text-shadow: none; }
+.card.green { background-color: var(--uno-green); }
+.card.blue { background-color: var(--uno-blue); }
+.card.black { 
+    background: radial-gradient(circle, #555 0%, #252525 100%);
+}
+
+.card.is-symbol .main {
+    font-size: 32px;
+}
+.card.is-symbol .corner {
+    font-size: 12px;
+}
+.card.black.is-symbol .main {
+    font-size: 22px; 
+}
+
+#player-hand-display .card {
+    margin: 0 -20px; 
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+#player-hand-display .card:hover {
+    transform: translateY(-20px) scale(1.05);
+    z-index: 100;
+}
+.card.playable {
+    box-shadow: 0 0 20px 5px #ffeb3b;
+}
+
+.card-back {
+    background-color: var(--uno-black);
+    cursor: pointer;
+}
+.uno-logo {
+    width: 50px;
+    height: 35px;
+    font-size: 1.2rem;
+    background-color: var(--uno-red);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    transform: rotate(-25deg);
+    border: 2px solid white;
+}
+#bot-hand-display .card-back {
+    width: 60px;
+    height: 90px;
+    margin: 0 -20px; 
+}
+#bot-hand-display .uno-logo {
+    width: 40px;
+    height: 25px;
+    font-size: 0.9rem;
+}
+
+
+#color-picker-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+#color-picker-modal .modal-content {
+    background-color: #333;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+}
+.color-options {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+.color-options .color-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 4px solid white;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.color-options .color-btn:hover {
+    transform: scale(1.1);
+}
+.color-btn.red { background-color: var(--uno-red); }
+.color-btn.yellow { background-color: var(--uno-yellow); }
+.color-btn.green { background-color: var(--uno-green); }
+.color-btn.blue { background-color: var(--uno-blue); }
+
+#uno-alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--uno-red);
+    text-align: center;
+    font-size: 1.5em;
+    z-index: 2000;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
