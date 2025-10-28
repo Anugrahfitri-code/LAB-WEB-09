@@ -1,0 +1,946 @@
+/* === FONDASI & FONT === */
+:root {
+    --font-judul: 'Playfair Display', serif;
+    --font-isi: 'Poppins', sans-serif;
+    --warna-utama: #0d47a1; /* Biru tua yang elegan */
+    --warna-kedua: #1976d2; /* Biru cerah */
+    --warna-teks: #333;
+    --warna-latar: #f4f7f6;
+    --warna-putih: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-isi);
+    background-color: var(--warna-latar);
+    color: var(--warna-teks);
+    line-height: 1.6;
+}
+
+/* === MAIN LAYOUT (HEADER & FOOTER) === */
+.main-header {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #eee;
+    padding: 1rem 5%;
+    position: sticky; /* Membuat navigasi tetap di atas */
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo {
+    height: 40px; /* Ukuran logo */
+    width: auto;
+    margin-right: 15px;
+    /* Kita gunakan object-fit: contain agar logo-malang.png (920x653) tidak gepeng */
+    object-fit: contain; 
+}
+
+.brand-name {
+    font-family: var(--font-judul);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--warna-utama);
+    text-decoration: none;
+}
+
+.navbar-menu {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--warna-teks);
+    font-weight: 600;
+    padding: 5px 0;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--warna-utama);
+    border-bottom-color: var(--warna-utama);
+}
+
+.main-footer-copyright {
+    text-align: center;
+    padding: 2rem 5%;
+    background-color: var(--warna-teks);
+    color: var(--warna-putih);
+    margin-top: 4rem;
+}
+
+/* === KELAS UNTUK ANIMASI (PENTING!) === */
+
+/* Untuk menyembunyikan elemen sebelum dianimasikan */
+.anim-card,
+.anim-timeline-item {
+    opacity: 0; /* Sembunyikan by default */
+}
+/* CSS BARU: Untuk menganimasi judul per huruf
+  Kita buat judulnya 'overflow: hidden' 
+  dan hurufnya kita sembunyikan di bawah (translateY)
+*/
+.anim-judul {
+    overflow: hidden; /* Sembunyikan huruf saat mereka di luar box */
+}
+
+.anim-judul-huruf {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(1.1em); /* Mulai 1 baris di bawah */
+}
+
+/* Kelas untuk judul yang dianimasikan per huruf */
+.anim-judul-huruf {
+    /* Kita pisahkan per huruf */
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Untuk konten umum */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.section-title {
+    font-family: var(--font-judul);
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--warna-utama);
+    text-align: center;
+    margin-bottom: 3rem;
+    /* Kita beri kelas ini agar bisa dianimasikan */
+    overflow: hidden; /* Menyembunyikan huruf sebelum muncul */
+}
+/* === [TAMBAHAN] CSS UNTUK HALAMAN HOME === */
+
+/* --- Bagian Hero --- */
+.hero-section {
+    height: 90vh; /* 90% dari tinggi layar */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--warna-putih);
+    background-size: cover; /* CSS Penting untuk gambar besar */
+    background-position: center;
+    background-attachment: fixed; /* Efek parallax sederhana */
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Gelapkan gambar agar teks jelas */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title {
+    font-family: var(--font-judul);
+    font-size: 8rem; /* Ukuran super besar */
+    font-weight: 900;
+    margin: 0;
+    line-height: 1;
+    overflow: hidden; /* Sembunyikan huruf sebelum animasi */
+}
+
+/* Wrapper untuk animasi huruf per huruf */
+.hero-title .letter-wrapper {
+    display: inline-block;
+    overflow: hidden;
+}
+.hero-title .letter {
+    display: inline-block;
+    opacity: 0; /* Sembunyikan huruf by default */
+    transform: translateY(100px); /* Mulai dari bawah */
+}
+
+.hero-subtitle {
+    font-size: 1.75rem;
+    font-weight: 300;
+    margin-top: 1rem;
+    opacity: 0; /* Sembunyikan untuk animasi */
+}
+
+.hero-cta {
+    display: inline-block;
+    background-color: var(--warna-utama);
+    color: var(--warna-putih);
+    padding: 1rem 2.5rem;
+    border-radius: 50px; /* Bentuk pil */
+    text-decoration: none;
+    font-weight: 700;
+    margin-top: 2rem;
+    transition: all 0.3s ease;
+    opacity: 0; /* Sembunyikan untuk animasi */
+    transform: translateY(20px);
+}
+
+.hero-cta:hover {
+    background-color: var(--warna-kedua);
+    transform: scale(1.05) translateY(20px);
+}
+
+/* --- Bagian Intro --- */
+.intro-section {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    margin-top: 5rem;
+}
+
+.intro-content {
+    flex-basis: 55%; /* Teks sedikit lebih dominan */
+}
+
+.intro-image {
+    flex-basis: 45%;
+}
+
+.intro-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.intro-title {
+    font-family: var(--font-judul);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--warna-utama);
+    margin-bottom: 1.5rem;
+}
+
+.intro-content p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+/* === [TAMBAHAN] KELAS ANIMASI SCROLL === */
+.anim-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.anim-scroll-fade {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.anim-scroll-fade.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* === [TAMBAHAN] CSS UNTUK HALAMAN DESTINASI & KULINER === */
+
+.page-container {
+    padding-top: 2rem; /* Beri jarak dari header */
+}
+
+/* Grid untuk menampung card */
+.wisata-grid {
+    display: grid;
+    /* Buat 3 kolom di layar besar, 2 di tablet, 1 di HP */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* Style untuk Komponen Card */
+.wisata-card {
+    background-color: var(--warna-putih);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    overflow: hidden; /* Agar gambar tidak keluar dari radius */
+    transition: all 0.3s ease;
+    
+    /* Kelas animasi: sembunyikan by default */
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+.wisata-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.card-image-container {
+    width: 100%;
+    /* Ini adalah trik agar semua card punya rasio gambar yang sama (rasio 16:9)
+      Ini akan mengatasi masalah gambar vertikal/horizontal Anda 
+    */
+    aspect-ratio: 16 / 10; 
+    overflow: hidden;
+    background-color: #eee; /* Fallback jika gambar gagal load */
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    /* Ini adalah CSS ajaib yang Anda minta!
+      'cover' akan zoom gambar agar pas di frame tanpa gepeng.
+      Ini akan "memotong" gambar vertikal (destinasi-kajoetangan.jpg)
+      tapi hasilnya akan rapi dan estetik.
+    */
+    object-fit: cover; 
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-family: var(--font-judul);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--warna-utama);
+    margin-bottom: 0.5rem;
+}
+
+.card-description {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* === [TAMBAHAN] CSS UNTUK HALAMAN GALERI (MASONRY) === */
+
+.gallery-intro {
+    text-align: center;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: -1rem auto 3rem auto;
+    color: #555;
+    /* Kita pakai kelas animasi 'anim-fade-up' dari home.blade.php */
+}
+
+/* Trik CSS Murni untuk Masonry */
+.masonry-grid {
+    /* Tentukan jumlah kolom */
+    column-count: 3;
+    /* Jarak antar kolom */
+    column-gap: 1.5rem;
+    width: 100%;
+}
+
+.masonry-item {
+    /* Ini penting agar gambar tidak terpotong antar kolom */
+    display: inline-block;
+    width: 100%;
+    background-color: #eee;
+    margin-bottom: 1.5rem; /* Jarak vertikal antar gambar */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    position: relative; /* Untuk hover overlay */
+    
+    /* Kelas animasi: sembunyikan by default */
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.4s ease;
+}
+
+.masonry-item img {
+    width: 100%;
+    height: auto;
+    display: block; /* Hilangkan spasi aneh di bawah gambar */
+    transition: all 0.4s ease;
+}
+
+/* Efek Hover Overlay */
+.item-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: var(--warna-putih);
+    font-weight: 700;
+    font-size: 1.2rem;
+    opacity: 0; /* Sembunyikan by default */
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+}
+
+.masonry-item:hover {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.masonry-item:hover img {
+    transform: scale(1.05); /* Sedikit zoom saat hover */
+}
+
+.masonry-item:hover .item-overlay {
+    opacity: 1; /* Tampilkan overlay saat hover */
+    transform: translateY(0);
+}
+
+/* === [TAMBAHAN] KELAS ANIMASI BARU === */
+.anim-grid-container {
+    /* Ini hanya container, tidak perlu disembunyikan */
+    opacity: 1;
+}
+
+/* === RESPONSIVE UNTUK MASONRY === */
+@media (max-width: 992px) {
+    .masonry-grid {
+        column-count: 2; /* 2 kolom di tablet */
+    }
+}
+
+@media (max-width: 576px) {
+    .masonry-grid {
+        column-count: 1; /* 1 kolom di HP */
+    }
+}
+/* === [TAMBAHAN] CSS UNTUK HALAMAN AGENDA (TIMELINE) === */
+
+.timeline-container {
+    position: relative;
+    max-width: 900px;
+    margin: 3rem auto;
+    /* Garis vertikal di tengah */
+    border-left: 4px solid var(--warna-kedua);
+}
+
+.timeline-item {
+    padding: 1.5rem 2rem;
+    position: relative;
+    margin-bottom: 2rem;
+    display: flex; /* Untuk layout gambar + teks */
+    gap: 1.5rem;
+    align-items: center;
+    
+    /* Kelas animasi: Sembunyikan by default */
+    opacity: 0; 
+}
+
+/* Trik untuk memposisikan item di kiri/kanan garis */
+.timeline-item:nth-child(odd) {
+    /* Item ganjil */
+    transform: translateX(0); /* (akan dianimasikan dari kanan) */
+}
+.timeline-item:nth-child(even) {
+    /* Item genap */
+    flex-direction: row-reverse; /* Tukar posisi gambar dan teks */
+    transform: translateX(0); /* (akan dianimasikan dari kiri) */
+}
+
+/* Bulatan di garis timeline */
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--warna-putih);
+    border: 4px solid var(--warna-utama);
+    top: 30px;
+    
+    /* Posisikan bulatan di garis */
+    left: -12px; /* Setengah lebar (20/2) + setengah garis (4/2) */
+}
+
+.timeline-image {
+    flex-shrink: 0;
+    width: 200px; /* Ukuran gambar tetap */
+}
+
+.timeline-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* (Kita ingat ukuran gambar agenda-mfc.jpg Anda 1200x800) */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.timeline-content {
+    background-color: var(--warna-putih);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    flex-grow: 1;
+}
+
+.timeline-date {
+    display: inline-block;
+    padding: 4px 12px;
+    background-color: var(--warna-utama);
+    color: var(--warna-putih);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.timeline-title {
+    font-family: var(--font-judul);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--warna-utama);
+    margin-bottom: 0.5rem;
+}
+
+
+/* === [TAMBAHAN] CSS UNTUK HALAMAN KONTAK (FORM) === */
+
+.contact-form-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    background-color: var(--warna-putih);
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--warna-teks);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+    width: 100%;
+    padding: 0.9rem;
+    font-family: var(--font-isi);
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus {
+    border-color: var(--warna-utama);
+    outline: none;
+}
+
+.contact-submit-btn {
+    display: inline-block;
+    width: 100%;
+    background-color: var(--warna-utama);
+    color: var(--warna-putih);
+    padding: 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.contact-submit-btn:hover {
+    background-color: var(--warna-kedua);
+    transform: scale(1.02);
+}
+/* === [TAMBAHAN] CSS UNTUK PRELOADER === */
+
+/*
+  Kelas ini kita tambahkan ke <body> untuk
+  mencegah scrollbar aneh muncul saat preloader aktif
+*/
+.body-loading {
+    overflow: hidden;
+}
+
+#preloader {
+    position: fixed; /* Menutupi seluruh layar */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999; /* Paling depan */
+    background-color: var(--warna-latar); /* Warna sama dengan background body */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Transisi saat menghilang (fade out) */
+    transition: opacity 0.75s ease;
+}
+
+/* Kelas ini akan kita tambahkan via JS saat selesai loading */
+#preloader.loaded {
+    opacity: 0;
+    /* Kita buat 'visibility: hidden' agar tidak bisa diklik setelah hilang */
+    visibility: hidden;
+}
+
+.preloader-content {
+    text-align: center;
+}
+
+.preloader-logo {
+    height: 80px; /* Ukuran logo di preloader */
+    width: auto;
+    object-fit: contain;
+    
+    /* Ini adalah nama animasi "denyut" */
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.preloader-text {
+    margin-top: 1rem;
+    font-weight: 600;
+    color: var(--warna-utama);
+    font-size: 1.1rem;
+}
+
+/* Definisi animasi "pulse" */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+/* === [TAMBAHAN] CSS UNTUK MENU MOBILE (HAMBURGER) === */
+
+/* Tombol Hamburger */
+.hamburger-btn {
+    display: none; /* Sembunyikan di desktop */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 9991; /* Di atas header, tapi di bawah menu mobile */
+}
+
+.hamburger-line {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--warna-utama);
+    margin: 5px 0;
+    transition: all 0.3s ease;
+}
+
+/* Animasi tombol hamburger menjadi 'X' */
+.hamburger-btn.is-active .hamburger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+.hamburger-btn.is-active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+.hamburger-btn.is-active .hamburger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Container Menu Mobile (Off-canvas) */
+.mobile-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Teks di tengah layar */
+    align-items: center;
+    gap: 2rem;
+    
+    position: fixed; /* Menutupi seluruh layar */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--warna-putih);
+    z-index: 9990; /* Di belakang tombol 'X' */
+    
+    /* Sembunyikan di luar layar (ke kanan) */
+    transform: translateX(100%);
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1); /* Animasi slide */
+}
+
+/* Kelas 'is-active' akan menggeser menu ke dalam layar */
+.mobile-menu.is-active {
+    transform: translateX(0);
+}
+
+.mobile-nav-link {
+    text-decoration: none;
+    color: var(--warna-utama);
+    font-family: var(--font-judul); /* Font besar agar "memukau" */
+    font-size: 2.5rem; /* Ukuran font besar */
+    font-weight: 700;
+    
+    /* Efek animasi muncul satu per satu */
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* === RESPONSIVE: Titik di mana menu desktop berganti ke mobile === */
+@media (max-width: 992px) { /* (Sesuaikan angka ini jika perlu) */
+    
+    .desktop-menu {
+        display: none; /* Sembunyikan menu desktop */
+    }
+    
+    .hamburger-btn {
+        display: block; /* Tampilkan tombol hamburger */
+    }
+}
+/* === [TAMBAHAN] CSS RESPONSIVE (MOBILE-FRIENDLY) === */
+
+@media (max-width: 768px) {
+
+    /* --- Perbaikan Header & Navigasi --- */
+    .navbar {
+        /* Beri sedikit ruang agar logo tidak mepet */
+        padding: 0 5%;
+    }
+    
+    /* Kita ganti 'main-header' padding-nya 
+      agar tidak menimpa padding .navbar
+    */
+    .main-header {
+        padding: 1rem 0;
+    }
+    
+    /* Perbesar font menu mobile agar lebih "memukau"
+      dan gampang diklik jari
+    */
+    .mobile-nav-link {
+        font-size: 2.2rem; /* Sedikit lebih kecil dari sebelumnya */
+    }
+
+    /* --- Perbaikan Halaman Home (Sesuai Screenshot) --- */
+    .hero-section {
+        height: 85vh; /* Sedikit lebih pendek */
+    }
+
+    .hero-title {
+        font-size: 4.5rem; /* JAUH LEBIH KECIL (dari 8rem) */
+        line-height: 1.1;
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem; /* Lebih kecil (dari 1.75rem) */
+        padding: 0 1rem; /* Beri jarak agar tidak mepet */
+    }
+
+    .hero-cta {
+        padding: 0.8rem 2rem; /* Tombol lebih kecil */
+        font-size: 0.9rem;
+    }
+
+    /* --- Perbaikan Halaman Intro (Home) --- */
+    .intro-section {
+        flex-direction: column; /* Susun ke bawah (vertikal) */
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    /* --- Perbaikan Judul Halaman (Destinasi, Kuliner, dll) --- */
+    .section-title {
+        font-size: 2.2rem; /* Lebih kecil (dari 3rem) */
+        margin-bottom: 2rem;
+    }
+
+    /* --- Perbaikan Grid Card (Destinasi, Kuliner) --- */
+    .wisata-grid {
+        /* Paksa 1 kolom di HP */
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    /* --- Perbaikan Halaman Galeri --- */
+    .gallery-intro {
+        padding: 0 1rem;
+    }
+
+    .masonry-grid {
+        column-count: 2; /* 2 kolom di tablet */
+    }
+
+    /* --- Perbaikan Halaman Agenda (Timeline) --- */
+    .timeline-container {
+        /* Hapus garis di tengah, pindah ke kiri */
+        border-left: none;
+        padding-left: 1rem;
+        border-left: 4px solid var(--warna-kedua);
+    }
+    
+    .timeline-item,
+    .timeline-item:nth-child(even) {
+        /* Paksa semua item jadi 1 kolom */
+        flex-direction: column; /* Susun ke bawah */
+        align-items: flex-start;
+        padding: 1rem 0;
+    }
+
+    .timeline-item:nth-child(even) .timeline-image {
+        /* Pastikan gambar di atas teks */
+        order: -1;
+    }
+
+    .timeline-image {
+        width: 100%; /* Gambar jadi lebar penuh */
+        max-height: 250px;
+        object-fit: cover;
+    }
+
+    .timeline-content {
+        width: 100%;
+    }
+
+    .timeline-item::before {
+        /* Posisikan bulatan di garis kiri */
+        left: -12px;
+    }
+    
+    /* --- Perbaikan Halaman Kontak --- */
+    .contact-form-container {
+        padding: 1.5rem;
+    }
+
+}
+
+/* Media query tambahan untuk HP yang SANGAT KECIL
+  (Misal: iPhone SE lama)
+*/
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 3.5rem; /* Perkecil lagi */
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .masonry-grid {
+        column-count: 1; /* Paksa 1 kolom */
+    }
+
+    .container {
+        padding: 0 1rem; /* Kurangi padding samping */
+    }
+}
+/* === [TAMBAHAN] CSS UNTUK TOMBOL SCROLL TO TOP === */
+
+.scroll-top-btn {
+    position: fixed; /* Tetap di layar */
+    bottom: 20px;
+    right: 20px;
+    z-index: 998; /* Di bawah menu/preloader tapi di atas konten */
+    
+    background-color: var(--warna-utama);
+    color: var(--warna-putih);
+    border: none;
+    border-radius: 50%; /* Bulat */
+    width: 50px;
+    height: 50px;
+    
+    display: flex; /* Untuk menengahkan panah */
+    justify-content: center;
+    align-items: center;
+    
+    font-size: 1.5rem; /* Ukuran panah */
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    
+    /* Sembunyikan by default */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px); /* Mulai dari bawah */
+    
+    transition: all 0.3s ease;
+}
+
+/* Kelas 'is-visible' akan memunculkan tombol */
+.scroll-top-btn.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+    background-color: var(--warna-kedua);
+    transform: scale(1.1); /* Efek hover */
+}
+/* === [TAMBAHAN] CSS UNTUK TOMBOL NAVIGASI HALAMAN (NEXT) === */
+
+/* Container untuk menengahkan tombol di akhir halaman */
+.next-page-container {
+    text-align: center; /* Menengahkan tombol */
+    margin-top: 4rem; /* Jarak besar dari konten di atasnya */
+    border-top: 1px solid #eee; /* Garis pemisah tipis */
+    padding-top: 3rem;
+}
+
+.next-page-link {
+    display: inline-block;
+    background-color: var(--warna-utama);
+    color: var(--warna-putih);
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px; /* Bentuk pil */
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0 0 rgba(13, 71, 161, 0.4); 
+    
+    animation: pulse-lightly 2s ease-in-out infinite;
+}
+
+.next-page-link:hover {
+    background-color: var(--warna-kedua);
+    transform: scale(1.05);
+    animation-play-state: paused; 
+}
+
+@keyframes pulse-lightly {
+    0% {
+        box-shadow: 0 0 0 0 rgba(13, 71, 161, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(13, 71, 161, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(13, 71, 161, 0);
+    }
+}
